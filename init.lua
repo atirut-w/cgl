@@ -5,6 +5,12 @@ local cgl = {}
 ---@type GPUProxy
 local gpu = require("component").gpu
 
+--- Clear the screen.
+function cgl.clear()
+    local w,h = gpu.getResolution()
+    gpu.fill(1,1,w,h," ")
+end
+
 --- Draw a bitmap image at the specified position.
 ---
 --- The data array is a one-dimensional array of pixel values.
