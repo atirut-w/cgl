@@ -34,6 +34,7 @@ function cgl.draw_bitmap(x, y, width, height, data)
 end
 
 --- Cache a bitmap image into a framebuffer and return its index.
+--- Can be used in combination with `cgl.draw_framebuffer()` to draw bitmaps more quickly.
 ---@param width integer
 ---@param height integer
 ---@param data integer[]
@@ -47,8 +48,6 @@ function cgl.cache_bitmap(width, height, data)
 end
 
 --- Draw a framebuffer at the specified position.
----
---- This is a convenience function that calls `gpu.bitblt()` internally.
 ---@param x integer
 ---@param y integer
 ---@param index integer
