@@ -7,8 +7,11 @@ local gpu = require("component").gpu
 
 --- Clear the screen.
 function cgl.clear()
+    local old_bg = gpu.getBackground()
+    gpu.setBackground(0x000000)
     local w,h = gpu.getResolution()
     gpu.fill(1,1,w,h," ")
+    gpu.setBackground(old_bg)
 end
 
 --- Draw a bitmap image at the specified position.
