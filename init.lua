@@ -40,6 +40,7 @@ end
 ---@param width integer
 ---@param height integer
 ---@param data integer[]
+---@return integer
 function cgl.cache_bitmap(width, height, data)
     local old_fb = gpu.getActiveBuffer()
     local index = gpu.allocateBuffer(width, height)
