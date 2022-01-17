@@ -58,12 +58,13 @@ end
 ---@param width integer
 ---@param height integer
 ---@param data integer[]
+---@param halfheight? boolean
 ---@return integer
-function cgl.cache_bitmap(width, height, data)
+function cgl.cache_bitmap(width, height, data, halfheight)
     local old_fb = gpu.getActiveBuffer()
-    local index = gpu.allocateBuffer(width, height)
+    local index = gpu.allocateBuffer(width, halfheight and height / 2 or height)
     gpu.setActiveBuffer(index)
-    cgl.draw_bitmap(1, 1, width, height, data)
+    cgl.draw_bitmap(1, 1, width, height, data, halfheight)
     gpu.setActiveBuffer(old_fb)
     return index
 end
