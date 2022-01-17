@@ -5,10 +5,12 @@ local cgl = {}
 ---@type GPUProxy
 local gpu = require("component").gpu
 
---- Clear the screen.
-function cgl.clear()
+--- Clear the screen with the given color.
+---@param color integer
+function cgl.clear(color)
     local old_bg = gpu.getBackground()
-    gpu.setBackground(0x000000)
+    color = color or 0x000000
+    gpu.setBackground(color)
     local w,h = gpu.getResolution()
     gpu.fill(1,1,w,h," ")
     gpu.setBackground(old_bg)
