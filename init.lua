@@ -20,18 +20,36 @@ end
 ---
 --- The data array is a one-dimensional array of pixel values.
 --- Each pixel value is an RGB color value in the 0xRRGGBB format.
+---
+--- When drawing in half-height mode, the image's height should be a multiple of 2. Otherwise, the image will end with an incomplete line.
 ---@param x integer
 ---@param y integer
 ---@param width integer
 ---@param height integer
 ---@param data integer[]
-function cgl.draw_bitmap(x, y, width, height, data)
+---@param halfheight? boolean
+function cgl.draw_bitmap(x, y, width, height, data, halfheight)
     assert(#data == width * height, "data array size mismatch")
+    halfheight = halfheight or false
     local old_bg = gpu.getBackground()
-    for i = 1, #data do
-        gpu.setBackground(data[i])
-        gpu.set(x + (i - 1) % width, y + math.floor((i - 1) / width), " ")
+
+    if not halfheight then
+        for i = 1, #data do
+            gpu.setBackground(data[i])
+            gpu.set(x + (i - 1) % width, y + math.floor((i - 1) / width), " ")
+        end
+    else
+        local row = 0
+        for line = 1, height / 2 do
+            for column = 1, width do
+                gpu.setForeground(data[row * width + column])
+                gpu.setBackground(data[(row + 1) * width + column] or 0x000000)
+                gpu.set(x + column - 1, y + line - 1, utf8.char(0x2580))
+            end
+            row = row + 2
+        end
     end
+
     gpu.setBackground(old_bg)
 end
 
